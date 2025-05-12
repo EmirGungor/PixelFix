@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SplineBackground from "./components/SplineBackground";
 import "./App.css";
 
 function App() {
@@ -27,49 +28,31 @@ function App() {
       setResultUrl(`http://localhost:8080/result/${filename}`);
     } catch (err) {
       setError("Yükleme sırasında bir hata oluştu.");
-      console.log(err)
+      console.log(err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="page">
-  <div className="card">
-    <h1 className="logo">PixelFix</h1>
-    <p className="subtitle">Bulanık görüntüleri tek tıkla netleştirin.</p>
+    <div className="upload-container">
+      <SplineBackground />
 
-    <label className="upload-box">
-      <input type="file" accept="image/*" onChange={handleFileChange} />
-      <span>📁 Görsel yükle</span>
-    </label>
+      <div className="content-wrapper">
+        <label className="upload-area">
+          <input type="file" accept="image/*" onChange={handleFileChange} />
+          <span>{loading ? "Yükleniyor..." : "Görsel Seç veya Sürükle"}</span>
+        </label>
 
-    {inputUrl && (
-      <div className="image-preview">
-        <img src={inputUrl} alt="Önizleme" />
+        {error && <p className="error">{error}</p>}
+
+        {resultUrl && (
+          <div className="result-image">
+            <img src={resultUrl} alt="Sonuç" />
+          </div>
+        )}
       </div>
-    )}
-
-    {inputUrl && !resultUrl && (
-      <button className="btn primary" disabled={loading}>
-        {loading ? "İşleniyor..." : "Resmi Düzelt"}
-      </button>
-    )}
-
-    {resultUrl && (
-      <div className="image-preview">
-        <img src={resultUrl} alt="Sonuç" />
-        <a href={resultUrl} download className="btn secondary">
-          İndir
-        </a>
-      </div>
-    )}
-
-    {error && <p className="error">{error}</p>}
-  </div>
-</div>
-
-
+    </div>
   );
 }
 
