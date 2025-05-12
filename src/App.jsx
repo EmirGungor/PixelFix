@@ -3,18 +3,21 @@ import SplineBackground from "./components/SplineBackground";
 import "./App.css";
 
 function App() {
-  const [inputUrl, setInputUrl] = useState("");
   const [resultUrl, setResultUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleImageUpload = async (file) => {
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      setError("Lütfen bir görsel dosyası seçin.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("file", file);
     setLoading(true);
     setError("");
-    setInputUrl(URL.createObjectURL(file));
-    setResultUrl("");
 
     try {
       const res = await fetch("http://localhost:8080/upload", {
@@ -24,7 +27,8 @@ function App() {
       const filename = await res.text();
       setResultUrl(`http://localhost:8080/result/${filename}`);
     } catch (err) {
-      setError("Yükleme sırasında bir hata oluştu.", err);
+      console.error(err);
+      setError("Yükleme sırasında bir hata oluştu.");
     } finally {
       setLoading(false);
     }
