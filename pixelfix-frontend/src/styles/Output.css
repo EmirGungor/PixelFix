@@ -1,0 +1,19 @@
+.output-container {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  .comparison {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  
+  .comparison img {
+    max-width: 300px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+  }
+  
