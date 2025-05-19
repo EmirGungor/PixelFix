@@ -3,6 +3,7 @@ import SplineBackground from "./components/SplineBackground";
 import "./App.css";
 
 function App() {
+  const [inputUrl, setInputUrl] = useState("");
   const [resultUrl, setResultUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -18,6 +19,8 @@ function App() {
     formData.append("file", file);
     setLoading(true);
     setError("");
+    setInputUrl(URL.createObjectURL(file));
+    setResultUrl("");
 
     try {
       const res = await fetch("http://localhost:8080/upload", {
@@ -36,7 +39,7 @@ function App() {
 
   return (
     <div className="upload-container">
-      <SplineBackground />
+      {/* <SplineBackground /> */}
 
       <div className="content-wrapper">
         <label className="upload-area">
@@ -47,8 +50,12 @@ function App() {
         {error && <p className="error">{error}</p>}
 
         {resultUrl && (
-          <div className="result-image">
-            <img src={resultUrl} alt="Sonuç" />
+          <div className="result-card">
+            <div className="result-images">
+              <img src={inputUrl} alt="Önce" />
+              <img src={resultUrl} alt="Sonra" />
+            </div>
+            <p className="success">Görsel başarıyla iyileştirildi!</p>
           </div>
         )}
       </div>
